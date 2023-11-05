@@ -1,0 +1,16 @@
+{
+  "name": "@tkd/tailwind",
+  "version": "0.0.1",
+  "description": "Tailwind configuration for TKD services and user interfaces",
+  "main": "./tailwind.config.js",
+  "repository": {
+    "type": "git",
+    "url": "github.com/tierklinik-dobersberg/common"
+  },
+  "author": "Patrick Pacher",
+  "license": "MIT",
+  "peerDependencies": {
+    "@tailwindcss/typography": "^0.5.10",
+    "tailwindcss": "^3.3.5"
+  }
+}
