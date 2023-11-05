@@ -48,6 +48,10 @@
     "postbuild": "tsc --declaration --declarationDir build --stripInternal --emitDeclarationOnly"
   },
   "exports": {
+    ".": {
+      "default": "./build/ckeditor.js",
+      "types": "./build/ckeditor.d.ts"
+    },
     "./custom-style": "./src/ckeditor.css"
   }
 }
