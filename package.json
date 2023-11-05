@@ -1,0 +1,8 @@
+{
+  "name": "@tkd/angular",
+  "exports": {
+    "./package.json": {
+      "default": "./angular/package.json"
+    }
+  }
+}
