@@ -1,5 +1,5 @@
 {
-  "name": "ckeditor5-custom-build",
+  "name": "@tkd/ckeditor-build",
   "author": "CKSource",
   "description": "A custom CKEditor 5 build made by the CKEditor 5 online builder.",
   "version": "0.0.1",
@@ -46,5 +46,8 @@
   "scripts": {
     "build": "webpack --mode production",
     "postbuild": "tsc --declaration --declarationDir build --stripInternal --emitDeclarationOnly"
+  },
+  "exports": {
+    "./custom-style": "./src/ckeditor.css"
   }
 }
