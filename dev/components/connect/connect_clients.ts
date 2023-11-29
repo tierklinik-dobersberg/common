@@ -1,8 +1,8 @@
-import { InjectionToken, NgModule, Provider } from "@angular/core";
+import { Inject, InjectionToken, NgModule, Provider } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Code, ConnectError, Interceptor, PromiseClient, Transport, createPromiseClient } from "@connectrpc/connect";
 import { createConnectTransport } from "@connectrpc/connect-web";
-import { AuthService, CalendarService, RoleService, SelfServiceService, UserService, RosterService, WorkShiftService, HolidayService, OffTimeService, WorkTimeService, CommentService, CallService } from "@tkd/apis";
+import { AuthService, CalendarService, RoleService, SelfServiceService, UserService, RosterService, WorkShiftService, HolidayService, OffTimeService, WorkTimeService, CommentService, CallService, ConstraintService } from "@tkd/apis";
 
 // AnyFn is not exporeted by @connectrpc/connect
 type AnyFn = Interceptor extends ((next: infer T) => infer T) ? T : never;
@@ -30,6 +30,7 @@ export const CALL_SERVICE = new InjectionToken<CallServiceClient>('OVERWRITE_SER
 export const OFFTIME_SERVICE = new InjectionToken<OffTimeServiceClient>('OFFTIME_SERVICE');
 export const WORKTIME_SERVICE = new InjectionToken<WorkTimeServiceClient>('WORKTIME_SERVICE');
 export const COMMENT_SERVICE = new InjectionToken<CommentServiceClient>('COMMENT_SERVICE');
+export const CONSTRAINT_SERVICE = new InjectionToken<ConstraintServiceClient>('CONSTRAINT_SERVICE');
 
 export type AuthServiceClient = PromiseClient<typeof AuthService>;
 export type SelfServiceClient = PromiseClient<typeof SelfServiceService>;
@@ -43,6 +44,7 @@ export type HolidayServiceClient = PromiseClient<typeof HolidayService>;
 export type OffTimeServiceClient = PromiseClient<typeof OffTimeService>;
 export type WorkTimeServiceClient = PromiseClient<typeof WorkTimeService>;
 export type CommentServiceClient = PromiseClient<typeof CommentService>;
+export type ConstraintServiceClient = PromiseClient<typeof ConstraintService>;
 
 function serviceClientFactory(type: any, ep: keyof ConnectConfig): (route: ActivatedRoute, router: Router, cfg: ConnectConfig) => any {
   return ((route: ActivatedRoute, router: Router, cfg: ConnectConfig) => {
@@ -75,6 +77,7 @@ export const connectProviders: Provider[] = [
   makeProvider(CALL_SERVICE, CallService, "callService"),
   makeProvider(OFFTIME_SERVICE, OffTimeService, "rosterService"),
   makeProvider(WORKTIME_SERVICE, WorkTimeService, "rosterService"),
+  makeProvider(CONSTRAINT_SERVICE, ConstraintService, "rosterService"),
   makeProvider(COMMENT_SERVICE, CommentService, "commentService")
 ]
 

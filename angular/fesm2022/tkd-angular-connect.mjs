@@ -1,10 +1,9 @@
 import * as i0 from '@angular/core';
 import { InjectionToken, NgModule } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { createPromiseClient, ConnectError, Code } from '@bufbuild/connect';
-import { createConnectTransport } from '@bufbuild/connect-web';
-import { AuthService, SelfServiceService, UserService, RoleService, CalendarService, HolidayService, RosterService, WorkShiftService, OffTimeService, WorkTimeService, CommentService } from '@tkd/apis';
-import { CallService } from '@tkd/apis/gen/es/tkd/pbx3cx/v1/calllog_connect';
+import { createPromiseClient, ConnectError, Code } from '@connectrpc/connect';
+import { createConnectTransport } from '@connectrpc/connect-web';
+import { AuthService, SelfServiceService, UserService, RoleService, CalendarService, HolidayService, RosterService, WorkShiftService, CallService, OffTimeService, WorkTimeService, ConstraintService, CommentService } from '@tkd/apis';
 
 const CONNECT_CONFIG = new InjectionToken('CONNECT_CONFIG');
 const AUTH_SERVICE = new InjectionToken('AUTH_SERVICE');
@@ -19,6 +18,7 @@ const CALL_SERVICE = new InjectionToken('OVERWRITE_SERVICE');
 const OFFTIME_SERVICE = new InjectionToken('OFFTIME_SERVICE');
 const WORKTIME_SERVICE = new InjectionToken('WORKTIME_SERVICE');
 const COMMENT_SERVICE = new InjectionToken('COMMENT_SERVICE');
+const CONSTRAINT_SERVICE = new InjectionToken('CONSTRAINT_SERVICE');
 function serviceClientFactory(type, ep) {
     return ((route, router, cfg) => {
         let transport = transportFactory(route, router, cfg, ep);
@@ -48,6 +48,7 @@ const connectProviders = [
     makeProvider(CALL_SERVICE, CallService, "callService"),
     makeProvider(OFFTIME_SERVICE, OffTimeService, "rosterService"),
     makeProvider(WORKTIME_SERVICE, WorkTimeService, "rosterService"),
+    makeProvider(CONSTRAINT_SERVICE, ConstraintService, "rosterService"),
     makeProvider(COMMENT_SERVICE, CommentService, "commentService")
 ];
 const retryRefreshToken = (transport, activatedRoute, router) => {
@@ -142,5 +143,5 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.2.12", ngImpo
  * Generated bundle index. Do not edit.
  */
 
-export { AUTH_SERVICE, CALENDAR_SERVICE, CALL_SERVICE, COMMENT_SERVICE, CONNECT_CONFIG, HOLIDAY_SERVICE, OFFTIME_SERVICE, ROLE_SERVICE, ROSTER_SERVICE, SELF_SERVICE, TkdConnectModule, USER_SERVICE, WORKTIME_SERVICE, WORK_SHIFT_SERVICE, connectProviders, transportFactory };
+export { AUTH_SERVICE, CALENDAR_SERVICE, CALL_SERVICE, COMMENT_SERVICE, CONNECT_CONFIG, CONSTRAINT_SERVICE, HOLIDAY_SERVICE, OFFTIME_SERVICE, ROLE_SERVICE, ROSTER_SERVICE, SELF_SERVICE, TkdConnectModule, USER_SERVICE, WORKTIME_SERVICE, WORK_SHIFT_SERVICE, connectProviders, transportFactory };
 //# sourceMappingURL=tkd-angular-connect.mjs.map

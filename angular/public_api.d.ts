@@ -1,2 +1,2 @@
-export * from './user.pipes';
-export * from './to-date.pipe';
+declare const _default: undefined;
+export default _default;
