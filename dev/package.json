@@ -9,6 +9,22 @@
   },
   "private": true,
   "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^16.0.6",
+    "@angular/cli": "~16.0.5",
+    "@angular/compiler-cli": "^16.0.0",
+    "@bufbuild/protobuf": "^1.4.2",
+    "@connectrpc/connect": "^1.1.3",
+    "@connectrpc/connect-web": "^1.1.3",
+    "@tkd/apis": "github:tierklinik-dobersberg/apis#main",
+    "@types/body-parser": "^1.19.5",
+    "@types/connect": "^3.4.38",
+    "ng-packagr": "^16.0.0",
+    "typescript": "~5.0.2"
+  },
+  "peerDependencies": {
     "@angular/animations": "^16.0.0",
     "@angular/common": "^16.0.0",
     "@angular/compiler": "^16.0.0",
@@ -17,18 +33,12 @@
     "@angular/platform-browser": "^16.0.0",
     "@angular/platform-browser-dynamic": "^16.0.0",
     "@angular/router": "^16.0.0",
-    "rxjs": "~7.8.0",
-    "tslib": "^2.3.0",
+    "@bufbuild/protobuf": "^1.4.2",
+    "@ckeditor/ckeditor5-angular": "^7.0.1",
+    "@connectrpc/connect": "^1.1.3",
+    "@connectrpc/connect-web": "^1.1.3",
+    "@tkd/apis": "github:tierklinik-dobersberg/apis#main",
+    "rxjs": "^7.8.1",
     "zone.js": "~0.13.0"
-  },
-  "devDependencies": {
-    "@angular-devkit/build-angular": "^16.0.6",
-    "@angular/cli": "~16.0.5",
-    "@angular/compiler-cli": "^16.0.0",
-    "ng-packagr": "^16.0.0",
-    "typescript": "~5.0.2"
-  },
-  "peerDependencies": {
-    "@tkd/apis": "github:tierklinik-dobersberg/apis#main"
   }
 }

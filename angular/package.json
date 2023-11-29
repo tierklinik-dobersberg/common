@@ -21,6 +21,12 @@
       "esm": "./esm2022/tkd-angular.mjs",
       "default": "./fesm2022/tkd-angular.mjs"
     },
+    "./ckeditor": {
+      "types": "./ckeditor/index.d.ts",
+      "esm2022": "./esm2022/ckeditor/tkd-angular-ckeditor.mjs",
+      "esm": "./esm2022/ckeditor/tkd-angular-ckeditor.mjs",
+      "default": "./fesm2022/tkd-angular-ckeditor.mjs"
+    },
     "./connect": {
       "types": "./connect/index.d.ts",
       "esm2022": "./esm2022/connect/tkd-angular-connect.mjs",

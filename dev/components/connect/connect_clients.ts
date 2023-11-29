@@ -1,9 +1,12 @@
 import { InjectionToken, NgModule, Provider } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Code, ConnectError, Interceptor, PromiseClient, Transport, createPromiseClient } from "@bufbuild/connect";
-import { createConnectTransport } from "@bufbuild/connect-web";
-import { AuthService, CalendarService, RoleService, SelfServiceService, UserService, RosterService, WorkShiftService, HolidayService, OffTimeService, WorkTimeService, CommentService } from "@tkd/apis";
-import { CallService } from '@tkd/apis/gen/es/tkd/pbx3cx/v1/calllog_connect';
+import { Code, ConnectError, Interceptor, PromiseClient, Transport, createPromiseClient } from "@connectrpc/connect";
+import { createConnectTransport } from "@connectrpc/connect-web";
+import { AuthService, CalendarService, RoleService, SelfServiceService, UserService, RosterService, WorkShiftService, HolidayService, OffTimeService, WorkTimeService, CommentService, CallService } from "@tkd/apis";
+
+// AnyFn is not exporeted by @connectrpc/connect
+type AnyFn = Interceptor extends ((next: infer T) => infer T) ? T : never;
+
 
 export interface ConnectConfig {
   accountService: string;
@@ -78,7 +81,7 @@ export const connectProviders: Provider[] = [
 const retryRefreshToken: (transport: Transport, activatedRoute: ActivatedRoute, router: Router) => Interceptor = (transport, activatedRoute, router) => {
   let pendingRefresh: Promise<void> | null = null;
 
-  return (next) => async (req) => {
+  return (next: AnyFn) => async (req) => {
     try {
       const result = await next(req)
       return result;

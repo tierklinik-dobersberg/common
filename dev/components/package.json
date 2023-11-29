@@ -1,0 +1,20 @@
+{
+  "name": "@tkd/angular",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/animations": "^16.0.0",
+    "@angular/common": "^16.0.0",
+    "@angular/forms": "^16.0.0",
+    "@angular/core": "^16.0.0",
+    "@angular/platform-browser": "^16.0.0",
+    "@angular/router": "^16.0.0",
+    "@bufbuild/protobuf": "^1.4.2",
+    "@connectrpc/connect": "^1.1.3",
+    "@connectrpc/connect-web": "^1.1.3",
+    "@tkd/apis": "github:tierklinik-dobersberg/apis#main"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}
