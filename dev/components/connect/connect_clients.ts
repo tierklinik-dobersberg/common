@@ -1,4 +1,4 @@
-import { Inject, InjectionToken, NgModule, Provider } from "@angular/core";
+import { Inject, InjectionToken, ModuleWithProviders, NgModule, Provider } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Code, ConnectError, Interceptor, PromiseClient, Transport, createPromiseClient } from "@connectrpc/connect";
 import { createConnectTransport } from "@connectrpc/connect-web";
@@ -169,4 +169,16 @@ export function transportFactory(route: ActivatedRoute, router: Router, cfg: Con
 @NgModule({
   providers: connectProviders,
 })
-export class TkdConnectModule {}
+export class TkdConnectModule {
+  static forRoot(cfg: ConnectConfig): ModuleWithProviders<TkdConnectModule> {
+    return {
+      ngModule: TkdConnectModule,
+      providers: [
+        {
+          provide: CONNECT_CONFIG,
+          useValue: cfg,
+        }
+      ]
+    }
+  }
+}
