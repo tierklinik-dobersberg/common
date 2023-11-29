@@ -124,6 +124,17 @@ function transportFactory(route, router, cfg, endpoint) {
     });
 }
 class TkdConnectModule {
+    static forRoot(cfg) {
+        return {
+            ngModule: TkdConnectModule,
+            providers: [
+                {
+                    provide: CONNECT_CONFIG,
+                    useValue: cfg,
+                }
+            ]
+        };
+    }
     static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.2.12", ngImport: i0, type: TkdConnectModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule }); }
     static { this.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "16.2.12", ngImport: i0, type: TkdConnectModule }); }
     static { this.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "16.2.12", ngImport: i0, type: TkdConnectModule, providers: connectProviders }); }

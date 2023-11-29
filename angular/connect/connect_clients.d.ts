@@ -1,4 +1,4 @@
-import { InjectionToken, Provider } from "@angular/core";
+import { InjectionToken, ModuleWithProviders, Provider } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { PromiseClient, Transport } from "@connectrpc/connect";
 import { AuthService, CalendarService, RoleService, SelfServiceService, UserService, RosterService, WorkShiftService, HolidayService, OffTimeService, WorkTimeService, CommentService, CallService, ConstraintService } from "@tkd/apis";
@@ -40,6 +40,7 @@ export type ConstraintServiceClient = PromiseClient<typeof ConstraintService>;
 export declare const connectProviders: Provider[];
 export declare function transportFactory(route: ActivatedRoute, router: Router, cfg: ConnectConfig, endpoint: keyof ConnectConfig): Transport;
 export declare class TkdConnectModule {
+    static forRoot(cfg: ConnectConfig): ModuleWithProviders<TkdConnectModule>;
     static ɵfac: i0.ɵɵFactoryDeclaration<TkdConnectModule, never>;
     static ɵmod: i0.ɵɵNgModuleDeclaration<TkdConnectModule, never, never, never>;
     static ɵinj: i0.ɵɵInjectorDeclaration<TkdConnectModule>;
