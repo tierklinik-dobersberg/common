@@ -30,7 +30,11 @@ export class DaytimePipe implements PipeTransform {
     }
 
     if (duration !== undefined) {
-      const seconds = Number(value.hour)*60*60 + Number(value.minute)*60 + Number(duration.seconds)
+      let seconds = Number(value.hour)*60*60 + Number(value.minute)*60 + Number(duration.seconds)
+      while (seconds > (24*60*60-1)) {
+        seconds -= (24 * 60 * 60);
+      }
+
       const hour = Math.floor(seconds / 60 / 60)
       const minutes = Math.floor( (seconds - (hour * 60 * 60)) / 60 );
 

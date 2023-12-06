@@ -1,1 +1,0 @@
-{"version":3,"file":"tkd-angular.mjs","sources":["../../dev/components/public_api.ts","../../dev/components/tkd-angular.ts"],"sourcesContent":["// https://github.com/ng-packagr/ng-packagr/issues/1655\nexport default void 0;","/**\n * Generated bundle index. Do not edit.\n */\n\nexport * from './public_api';\n"],"names":[],"mappings":"AAAA;AACA,iBAAe,KAAK,CAAC;;ACDrB;;AAEG"}

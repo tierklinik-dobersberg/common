@@ -1,6 +1,12 @@
 {
-  "name": "@tkd/angular",
-  "version": "0.0.1",
+  "name": "@tierklinik-dobersberg/angular",
+  "version": "0.0.2",
+  "author": "Tierklinik Dobersberg",
+  "description": "Common angular components for Tierklinik Dobersberg.",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/tierklinik-dobersberg/common.git"
+  },
   "peerDependencies": {
     "@angular/animations": "^16.0.0",
     "@angular/common": "^16.0.0",
@@ -15,6 +21,9 @@
   },
   "dependencies": {
     "tslib": "^2.3.0"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   },
   "sideEffects": false
 }

@@ -1,5 +1,0 @@
-/*
- * Public API Surface of connect
- */
-export * from './connect_clients';
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicHVibGljX2FwaS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2Rldi9jb21wb25lbnRzL2Nvbm5lY3QvcHVibGljX2FwaS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7R0FFRztBQUNILGNBQWMsbUJBQW1CLENBQUEiLCJzb3VyY2VzQ29udGVudCI6WyIvKlxuICogUHVibGljIEFQSSBTdXJmYWNlIG9mIGNvbm5lY3RcbiAqL1xuZXhwb3J0ICogZnJvbSAnLi9jb25uZWN0X2NsaWVudHMnIl19
