@@ -1,4 +1,5 @@
 const typography = require('@tailwindcss/typography');
+const breakpoints = require('./breakpoints');
 
 var enablePurge = false;
 
@@ -10,6 +11,7 @@ module.exports = {
   mode: 'jit',
   content: ['./src/**/*.{html,scss,ts}'],
   theme: {
+    screens: breakpoints,
     colors: (theme) => ({
       transparent: 'transparent',
       current: 'currentColor',
