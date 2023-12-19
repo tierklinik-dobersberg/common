@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { Profile, User } from "@tkd/apis";
+import { Profile, User } from "@tierklinik-dobersberg/apis";
 
 export enum UserExtraKey {
   CalendarID = "calendarId",

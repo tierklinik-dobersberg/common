@@ -1,7 +1,7 @@
-const plugin = require('tailwindcss/plugin')
+import plugin from 'tailwindcss/plugin'
 
-module.exports = plugin.withOptions(
-  ({ className = 'tkd', target = 'modern'} = {}) => {
+export const Plugin = plugin.withOptions(
+  () => {
     return function({addComponents, theme}) {
       addComponents({
         '.tkd-btn': {
@@ -26,6 +26,11 @@ module.exports = plugin.withOptions(
               color: 'var(--hover)',
               borderColor: 'var(--hover)',
             }
+          },
+
+          '&[disabled]': {
+            '@apply opacity-50': {},
+            'cursor': 'not-allowed'
           }
         },
 

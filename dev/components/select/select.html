@@ -1,0 +1,12 @@
+<div [tkdDropdown]="dropdown" class="border border-subtle hover:border-text-deEmphasized hover:border-opacity-50 cursor-pointer px-2 py-1 bg-white">
+    <ng-template [ngIf]="selectedItem" [ngIfElse]="placeholder">
+        <ng-container *ngTemplateOutlet="selectedItem?.templateRef!"></ng-container>
+    </ng-template>
+    <ng-template #placeholder>
+        <span>Please select</span>
+    </ng-template>
+</div>
+
+<tkd-dropdown #dropdown>
+    <ng-content></ng-content>
+</tkd-dropdown>

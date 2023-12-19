@@ -1,6 +1,6 @@
 import { Duration } from '@bufbuild/protobuf';
 import { Pipe, PipeTransform } from "@angular/core";
-import { Daytime } from "@tkd/apis";
+import { Daytime } from "@tierklinik-dobersberg/apis";
 import { padLeft } from "./utils";
 
 @Pipe({

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { Profile } from "@tkd/apis";
+import { Profile } from "@tierklinik-dobersberg/apis";
 
 @Pipe({
   name: 'toUser',

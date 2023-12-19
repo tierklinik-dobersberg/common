@@ -2,7 +2,10 @@ import { Inject, InjectionToken, ModuleWithProviders, NgModule, Provider } from 
 import { ActivatedRoute, Router } from "@angular/router";
 import { Code, ConnectError, Interceptor, PromiseClient, Transport, createPromiseClient } from "@connectrpc/connect";
 import { createConnectTransport } from "@connectrpc/connect-web";
-import { AuthService, CalendarService, RoleService, SelfServiceService, UserService, RosterService, WorkShiftService, HolidayService, OffTimeService, WorkTimeService, CommentService, CallService, ConstraintService } from "@tkd/apis";
+import { AuthService, CalendarService, RoleService, SelfServiceService, UserService, RosterService, WorkShiftService, HolidayService, OffTimeService, WorkTimeService, CommentService, CallService, ConstraintService } from "@tierklinik-dobersberg/apis";
+
+// TODO(ppacher): migrate the import once we re-released @tierklinik-dobersberg/apis
+import { NotifyService } from '@tierklinik-dobersberg/apis/gen/es/tkd/idm/v1/notify_service_connect';
 
 // AnyFn is not exporeted by @connectrpc/connect
 type AnyFn = Interceptor extends ((next: infer T) => infer T) ? T : never;
@@ -31,6 +34,7 @@ export const OFFTIME_SERVICE = new InjectionToken<OffTimeServiceClient>('OFFTIME
 export const WORKTIME_SERVICE = new InjectionToken<WorkTimeServiceClient>('WORKTIME_SERVICE');
 export const COMMENT_SERVICE = new InjectionToken<CommentServiceClient>('COMMENT_SERVICE');
 export const CONSTRAINT_SERVICE = new InjectionToken<ConstraintServiceClient>('CONSTRAINT_SERVICE');
+export const NOTIFY_SERIVCE = new InjectionToken<NotifyServiceClient>('NOTIFY_SERVICE');
 
 export type AuthServiceClient = PromiseClient<typeof AuthService>;
 export type SelfServiceClient = PromiseClient<typeof SelfServiceService>;
@@ -45,6 +49,7 @@ export type OffTimeServiceClient = PromiseClient<typeof OffTimeService>;
 export type WorkTimeServiceClient = PromiseClient<typeof WorkTimeService>;
 export type CommentServiceClient = PromiseClient<typeof CommentService>;
 export type ConstraintServiceClient = PromiseClient<typeof ConstraintService>;
+export type NotifyServiceClient = PromiseClient<typeof NotifyService>;
 
 function serviceClientFactory(type: any, ep: keyof ConnectConfig): (route: ActivatedRoute, router: Router, cfg: ConnectConfig) => any {
   return ((route: ActivatedRoute, router: Router, cfg: ConnectConfig) => {
@@ -70,6 +75,7 @@ export const connectProviders: Provider[] = [
   makeProvider(SELF_SERVICE, SelfServiceService, "accountService"),
   makeProvider(USER_SERVICE, UserService, "accountService"),
   makeProvider(ROLE_SERVICE, RoleService, "accountService"),
+  makeProvider(NOTIFY_SERIVCE, NotifyService, "accountService"),
   makeProvider(CALENDAR_SERVICE, CalendarService, "calendarService"),
   makeProvider(HOLIDAY_SERVICE, HolidayService, "calendarService"),
   makeProvider(ROSTER_SERVICE, RosterService, "rosterService"),

@@ -1,5 +1,7 @@
-const typography = require('@tailwindcss/typography');
-const breakpoints = require('./breakpoints');
+import typography from '@tailwindcss/typography';
+import type { Config } from 'tailwindcss'
+import { Breakpoints } from './breakpoints';
+import { Plugin } from './tkd-theme';
 
 var enablePurge = false;
 
@@ -7,12 +9,12 @@ try {
   enablePurge = process.env.TAILWIND_MODE === 'build';
 } catch(err) {}
 
-module.exports = {
+export default {
   mode: 'jit',
   content: ['./src/**/*.{html,scss,ts}'],
   theme: {
-    screens: breakpoints,
-    colors: (theme) => ({
+    screens: Breakpoints,
+    colors: ({theme}) => ({
       transparent: 'transparent',
       current: 'currentColor',
       white: 'white',
@@ -89,7 +91,7 @@ module.exports = {
         dark: '#ba8918',
       },
     },
-    textColor: (theme) => {
+    textColor: ({theme}) => {
       return {
         ...theme("colors"),
         'color-primary': theme("colors").primary,
@@ -127,7 +129,7 @@ module.exports = {
       height: {
         'fit': 'fit-content'
       },
-      typography: (theme) => ({
+      typography: (theme: any) => ({
         important: true,
 				light: {
 					css: [
@@ -203,6 +205,6 @@ module.exports = {
   },
   plugins: [
     typography,
-    require('./tkd-theme.js')
+    Plugin,
   ],
-};
+} satisfies Config;

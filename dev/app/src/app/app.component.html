@@ -1,0 +1,32 @@
+<h1 class="text-lg text-color-primary font-lato p-2 mb-2 border-b border-subtle w-full">Dropdown</h1>
+
+<div>
+    <tkd-dropdown overlayClass="bg-subtle" #dropdown="tkdDropdown" mobileTitle="Select one">
+        <tkd-menu-item title="foobar" icon="heroAdjustmentsHorizontal"></tkd-menu-item>
+        <tkd-menu-item title="foobar" icon=""></tkd-menu-item>
+        <tkd-menu-item title="foobar" closeOnClick="false" icon=""></tkd-menu-item>
+        <tkd-sub-menu title="sub-menu" icon="">
+            <tkd-menu-item title="first"></tkd-menu-item>
+            <tkd-menu-item title="last"></tkd-menu-item>
+
+            <tkd-sub-menu title="sub-sub-menu">
+                <tkd-menu-item title="first"></tkd-menu-item>
+                <tkd-menu-item title="last"></tkd-menu-item>
+            </tkd-sub-menu>
+
+        </tkd-sub-menu>
+    </tkd-dropdown>
+    <button [tkdDropdown]="dropdown" tkdOpenMode="click" class="tkd-btn tkd-primary">Click Me</button>
+</div>
+
+
+<div>
+    <tkd-select [(ngModel)]="select">
+        <tkd-option value="first">First</tkd-option>
+        <tkd-option value="second">Second</tkd-option>
+    </tkd-select>
+
+    <pre>
+        {{ select | json }}
+    </pre>
+</div>

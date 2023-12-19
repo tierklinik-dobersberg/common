@@ -4,7 +4,7 @@
     "baseUrl": ".",
     "rootDir": ".",
     "paths": {
-      "@tkd/angular/*": [
+      "@tierklinik-dobersberg/angular/*": [
         "./*"
       ]
     },
