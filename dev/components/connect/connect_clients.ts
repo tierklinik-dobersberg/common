@@ -6,6 +6,7 @@ import { AuthService, CalendarService, RoleService, SelfServiceService, UserServ
 
 // TODO(ppacher): migrate the import once we re-released @tierklinik-dobersberg/apis
 import { NotifyService } from '@tierklinik-dobersberg/apis/gen/es/tkd/idm/v1/notify_service_connect';
+import { connect } from "rxjs";
 
 // AnyFn is not exporeted by @connectrpc/connect
 type AnyFn = Interceptor extends ((next: infer T) => infer T) ? T : never;
@@ -19,7 +20,10 @@ export interface ConnectConfig {
   callService: string;
 }
 
+export type UnauthtenticatedHandlerFunc = (err: ConnectError) => void;
+
 export const CONNECT_CONFIG = new InjectionToken<ConnectConfig>('CONNECT_CONFIG');
+export const UNAUTHENCIATED_HANDLER = new InjectionToken<UnauthtenticatedHandlerFunc[]>('UNAUTHENTICATED_HANDLER');
 
 export const AUTH_SERVICE = new InjectionToken<AuthServiceClient>('AUTH_SERVICE');
 export const SELF_SERVICE = new InjectionToken<SelfServiceClient>('SELF_SERVICE');
@@ -51,9 +55,9 @@ export type CommentServiceClient = PromiseClient<typeof CommentService>;
 export type ConstraintServiceClient = PromiseClient<typeof ConstraintService>;
 export type NotifyServiceClient = PromiseClient<typeof NotifyService>;
 
-function serviceClientFactory(type: any, ep: keyof ConnectConfig): (route: ActivatedRoute, router: Router, cfg: ConnectConfig) => any {
-  return ((route: ActivatedRoute, router: Router, cfg: ConnectConfig) => {
-    let transport = transportFactory(route, router, cfg, ep);
+function serviceClientFactory(type: any, ep: keyof ConnectConfig) {
+  return ((route: ActivatedRoute, router: Router, cfg: ConnectConfig, handler: UnauthtenticatedHandlerFunc[]) => {
+    let transport = transportFactory(route, router, cfg, ep, handler);
     return createPromiseClient(type, transport);
   });
 }
@@ -63,7 +67,8 @@ function makeProvider(token: InjectionToken<any>, type: any, ep: keyof ConnectCo
     deps: [
       ActivatedRoute,
       Router,
-      CONNECT_CONFIG
+      CONNECT_CONFIG,
+      UNAUTHENCIATED_HANDLER,
     ],
     provide: token,
     useFactory: serviceClientFactory(type, ep),
@@ -87,7 +92,7 @@ export const connectProviders: Provider[] = [
   makeProvider(COMMENT_SERVICE, CommentService, "commentService")
 ]
 
-const retryRefreshToken: (transport: Transport, activatedRoute: ActivatedRoute, router: Router) => Interceptor = (transport, activatedRoute, router) => {
+const retryRefreshToken: (transport: Transport, activatedRoute: ActivatedRoute, router: Router, handler: UnauthtenticatedHandlerFunc[]) => Interceptor = (transport, activatedRoute, router, handler) => {
   let pendingRefresh: Promise<void> | null = null;
 
   return (next: AnyFn) => async (req) => {
@@ -135,6 +140,10 @@ const retryRefreshToken: (transport: Transport, activatedRoute: ActivatedRoute, 
           } catch (refreshErr) {
             console.error("failed to refresh token", refreshErr)
 
+            handler?.forEach(handler => {
+              handler(ConnectError.from(refreshErr));
+            })
+
             _reject(err);
 
             throw err;
@@ -152,12 +161,14 @@ const retryRefreshToken: (transport: Transport, activatedRoute: ActivatedRoute, 
         return await next(req);
       }
 
+      console.error('refresh-token-interceptor: unhandled error: ', err)
+
       throw err;
     }
   }
 }
 
-export function transportFactory(route: ActivatedRoute, router: Router, cfg: ConnectConfig, endpoint: keyof ConnectConfig): Transport {
+export function transportFactory(route: ActivatedRoute, router: Router, cfg: ConnectConfig, endpoint: keyof ConnectConfig, handler: UnauthtenticatedHandlerFunc[]): Transport {
   const retryTransport = createConnectTransport({baseUrl: cfg["accountService"], credentials: 'include'})
 
   return createConnectTransport({
@@ -167,7 +178,7 @@ export function transportFactory(route: ActivatedRoute, router: Router, cfg: Con
       ignoreUnknownFields: true
     },
     interceptors: [
-      retryRefreshToken(retryTransport, route, router),
+      retryRefreshToken(retryTransport, route, router, handler),
     ],
   })
 }
@@ -176,14 +187,18 @@ export function transportFactory(route: ActivatedRoute, router: Router, cfg: Con
   providers: connectProviders,
 })
 export class TkdConnectModule {
-  static forRoot(cfg: ConnectConfig): ModuleWithProviders<TkdConnectModule> {
+  static forRoot(cfg: ConnectConfig, handler?: UnauthtenticatedHandlerFunc[]): ModuleWithProviders<TkdConnectModule> {
     return {
       ngModule: TkdConnectModule,
       providers: [
         {
           provide: CONNECT_CONFIG,
           useValue: cfg,
-        }
+        },
+        {
+          provide: UNAUTHENCIATED_HANDLER,
+          useValue: handler || []
+        },
       ]
     }
   }

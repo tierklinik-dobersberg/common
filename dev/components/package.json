@@ -1,6 +1,6 @@
 {
   "name": "@tierklinik-dobersberg/angular",
-  "version": "0.0.8",
+  "version": "0.0.12",
   "author": "Tierklinik Dobersberg",
   "description": "Common angular components for Tierklinik Dobersberg.",
   "license": "MIT",
@@ -17,9 +17,9 @@
     "@angular/cdk": "^16.2.12",
     "@ng-icons/core": "^26.3.0",
     "@bufbuild/protobuf": "^1.4.2",
-    "@connectrpc/connect": "^1.1.3",
-    "@connectrpc/connect-web": "^1.1.3",
-    "@tierklinik-dobersberg/apis": ">=0.0.1",
+    "@connectrpc/connect": "^1.1.4",
+    "@connectrpc/connect-web": "^1.1.4",
+    "@tierklinik-dobersberg/apis": ">=0.0.16",
     "@tierklinik-dobersberg/tailwind": ">=0.0.9"
   },
   "dependencies": {
