@@ -29,6 +29,10 @@ exports.Plugin = plugin_1.default.withOptions(() => {
                         borderColor: 'var(--hover)',
                     }
                 },
+                '&[disabled]': {
+                    '@apply opacity-50': {},
+                    'cursor': 'not-allowed'
+                }
             },
             '.tdk-btn .tkd-small': {
                 '@apply text-xs px-1.5 py-1': {}

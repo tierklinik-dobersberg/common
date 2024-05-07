@@ -3,96 +3,94 @@ declare const _default: {
     mode: string;
     content: string[];
     theme: {
-        screens: {
-            sm: string;
-            md: string;
-            lg: string;
-            xl: string;
-            '2xl': string;
-        };
-        colors: ({ theme }: import("tailwindcss/types/config").PluginUtils) => any;
-        foundationColors: {
-            primary: {
-                DEFAULT: string;
-                dark: string;
-            };
-            secondary: {
-                DEFAULT: string;
-                dark: string;
-            };
-            tertiary: {
-                DEFAULT: string;
-                dark: string;
-            };
-            subtle: string;
-            text: {
-                primary: string;
-                highlight: string;
-                secondary: string;
-                tertiary: string;
-                deEmphasized: string;
-            };
-        };
-        alertColors: {
-            'alert-green': {
-                DEFAULT: string;
-                dark: string;
-            };
-            'alert-orange': {
-                DEFAULT: string;
-                dark: string;
-            };
-            'alert-red': {
-                DEFAULT: string;
-                dark: string;
-            };
-            'alert-blue': {
-                DEFAULT: string;
-                dark: string;
-            };
-        };
-        specialColors: {
-            meadow: {
-                DEFAULT: string;
-                dark: string;
-            };
-            pink: {
-                DEFAULT: string;
-                dark: string;
-            };
-            purple: {
-                DEFAULT: string;
-                dark: string;
-            };
-            'blue-gray': {
-                DEFAULT: string;
-                dark: string;
-            };
-            'rost-dust': {
-                DEFAULT: string;
-                dark: string;
-            };
-            'golden-rod': {
-                DEFAULT: string;
-                dark: string;
-            };
-        };
-        textColor: ({ theme }: import("tailwindcss/types/config").PluginUtils) => any;
-        minWidth: {
-            '1/2': string;
-            '1/3': string;
-            '2/3': string;
-        };
-        fontFamily: {
-            inter: string;
-            lato: string;
-            roboto: string;
-        };
         extend: {
             screens: {
+                sm: string;
+                md: string;
+                lg: string;
+                xl: string;
+                '2xl': string;
                 print: {
                     raw: string;
                 };
+            };
+            colors: ({ theme }: import("tailwindcss/types/config").PluginUtils) => any;
+            foundationColors: {
+                primary: {
+                    DEFAULT: string;
+                    dark: string;
+                };
+                secondary: {
+                    DEFAULT: string;
+                    dark: string;
+                };
+                tertiary: {
+                    DEFAULT: string;
+                    dark: string;
+                };
+                subtle: string;
+                text: {
+                    primary: string;
+                    highlight: string;
+                    secondary: string;
+                    tertiary: string;
+                    deEmphasized: string;
+                };
+            };
+            alertColors: {
+                'alert-green': {
+                    DEFAULT: string;
+                    dark: string;
+                };
+                'alert-orange': {
+                    DEFAULT: string;
+                    dark: string;
+                };
+                'alert-red': {
+                    DEFAULT: string;
+                    dark: string;
+                };
+                'alert-blue': {
+                    DEFAULT: string;
+                    dark: string;
+                };
+            };
+            specialColors: {
+                meadow: {
+                    DEFAULT: string;
+                    dark: string;
+                };
+                pink: {
+                    DEFAULT: string;
+                    dark: string;
+                };
+                purple: {
+                    DEFAULT: string;
+                    dark: string;
+                };
+                'blue-gray': {
+                    DEFAULT: string;
+                    dark: string;
+                };
+                'rost-dust': {
+                    DEFAULT: string;
+                    dark: string;
+                };
+                'golden-rod': {
+                    DEFAULT: string;
+                    dark: string;
+                };
+            };
+            textColor: ({ theme }: import("tailwindcss/types/config").PluginUtils) => any;
+            minWidth: {
+                '1/2': string;
+                '1/3': string;
+                '2/3': string;
+            };
+            fontFamily: {
+                inter: string;
+                lato: string;
+                roboto: string;
             };
             opacity: {
                 light: string;

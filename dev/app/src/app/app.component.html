@@ -19,6 +19,7 @@
     <button [tkdDropdown]="dropdown" tkdOpenMode="click" class="tkd-btn tkd-primary">Click Me</button>
 </div>
 
+<input type="checkbox" tkdSwitch>
 
 <div>
     <tkd-select [(ngModel)]="select">
@@ -30,3 +31,8 @@
         {{ select | json }}
     </pre>
 </div>
+
+
+<ng-template #customTemplate let-data let-dialog="dialogRef">
+    {{ data | json }}
+</ng-template>

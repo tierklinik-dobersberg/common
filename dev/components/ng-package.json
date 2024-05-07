@@ -3,5 +3,10 @@
   "dest": "../../angular",
   "lib": {
     "entryFile": "public_api.ts"
-  }
+  },
+  "assets": [
+    "./theming.scss",
+    "**/_*.scss"
+  ]
 }
+

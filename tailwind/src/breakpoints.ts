@@ -14,4 +14,6 @@ export const Breakpoints = {
 
     '2xl': '1536px',
     // => @media (min-width: 1536px) { ... }
+
+    'print': { 'raw': 'print' },
 }

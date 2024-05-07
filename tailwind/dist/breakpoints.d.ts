@@ -4,5 +4,8 @@ export declare const Breakpoints: {
     lg: string;
     xl: string;
     '2xl': string;
+    print: {
+        raw: string;
+    };
 };
 //# sourceMappingURL=breakpoints.d.ts.map

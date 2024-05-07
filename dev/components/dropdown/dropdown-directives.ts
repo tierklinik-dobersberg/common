@@ -1,38 +1,64 @@
 import { CdkOverlayOrigin } from "@angular/cdk/overlay";
-import { DestroyRef, Directive, Input, OnInit, Renderer2, inject } from "@angular/core";
+import { DestroyRef, Directive, HostBinding, Input, OnInit, Renderer2, inject, numberAttribute } from "@angular/core";
 import { TkdDropdown } from "./dropdown";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { debounce, of, take } from "rxjs";
+import { coerceArray } from "@angular/cdk/coercion";
 
-export type TkdDropdownOpenMode = 'click' | 'hover';
+export type TkdDropdownOpenMode = 'click' | 'hover' | 'enter';
 
 @Directive({
     standalone: true,
     selector: '[tkdDropdown]',
+    exportAs: "tkdDropdown"
 })
 export class TkdDropdownDirective extends CdkOverlayOrigin implements OnInit {
     @Input('tkdOpenMode')
-    openMode: TkdDropdownOpenMode = 'click'
+    openMode: TkdDropdownOpenMode | TkdDropdownOpenMode[] = ['click', 'enter']
 
     @Input('tkdDropdown')
     dropdownInstance!: TkdDropdown;
+
+    @HostBinding('[attr.tabindex]')
+    @Input({transform: numberAttribute})
+    tabindex = 0;
 
     private readonly renderer = inject(Renderer2);
     private readonly destroyRef = inject(DestroyRef);
 
     ngOnInit(): void {
-        let cleanup = () => {};
 
-        if (this.openMode === 'click') {
-            cleanup = this.renderer.listen(this.elementRef.nativeElement, 'click', () => 
-                this.dropdownInstance.toggle(this)
-            );
-        } else if (this.openMode === 'hover') {
-            cleanup = this.renderer.listen(this.elementRef.nativeElement, 'mouseenter', () => {
-                this.dropdownInstance.open(this);
-            })
-        }
+        const mode = coerceArray(this.openMode);
 
-        this.destroyRef.onDestroy(cleanup);
+        mode.forEach(mode => {
+            let cleanup = () => {};
+
+            switch (mode) {
+                case 'click':
+                    cleanup = this.renderer.listen(this.elementRef.nativeElement, 'click', () => 
+                        this.dropdownInstance.toggle(this)
+                    );
+                    break;
+
+                case 'enter':
+                    cleanup = this.renderer.listen(this.elementRef.nativeElement, 'keydown', (event: KeyboardEvent) => {
+                        if (event.key !== 'Enter') {
+                            return
+                        }
+
+                        if (!this.dropdownInstance.isOpen) {
+                            this.dropdownInstance.open(this);
+                        }
+                    })
+                    break;
+
+                case 'hover':
+                    cleanup = this.renderer.listen(this.elementRef.nativeElement, 'mouseenter', () => {
+                        this.dropdownInstance.open(this);
+                    })
+                    break;
+            }
+
+            this.destroyRef.onDestroy(cleanup);
+        })
+
     }
 }

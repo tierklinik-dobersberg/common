@@ -1,26 +1,32 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Input, OnInit, TemplateRef, ViewChild, booleanAttribute, inject } from "@angular/core";
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, HostListener, Input, OnInit, Renderer2, TemplateRef, ViewChild, booleanAttribute, inject, numberAttribute } from "@angular/core";
 import { NgIconsModule, provideIcons } from "@ng-icons/core";
 import { TkdDropdown } from "@tierklinik-dobersberg/angular/dropdown";
 import { heroCheckMini } from '@ng-icons/heroicons/mini';
 import { TkdSelect } from "./select";
-import { NgTemplateOutlet } from "@angular/common";
+import { NgClass, NgIf, NgTemplateOutlet } from "@angular/common";
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
+import { Highlightable, ListKeyManagerOption } from "@angular/cdk/a11y";
 
 @Component({
     selector: 'tkd-option',
     standalone: true,
     template: `
-        <ng-template #valueTemplate>
-            <span><ng-content></ng-content></span>
-        </ng-template>
+        <ng-icon *ngIf="selected" name="heroCheckMini"></ng-icon>
+        <span [ngClass]="{
+            'ml-3 pl-[1em]': !selected
+        }" [innerHTML]="label"></span> 
 
-        <ng-icon [name]="selected ? 'heroCheckMini' : ''"></ng-icon>
-        <ng-container *ngTemplateOutlet="valueTemplate"></ng-container>
+        <div class="hidden" #content>
+            <ng-content></ng-content>
+        </div>
     `,
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
         TkdDropdown,
         NgIconsModule,
         NgTemplateOutlet,
+        NgClass,
+        NgIf
     ],
     providers: [
         provideIcons({heroCheckMini})
@@ -33,15 +39,23 @@ import { NgTemplateOutlet } from "@angular/common";
         `
     ]
 })
-export class TkdSelectOption<T = any> {
+export class TkdSelectOption<T = any> implements AfterViewInit, ListKeyManagerOption, Highlightable {
     private readonly selectComponent = inject(TkdSelect)
     private readonly cdr = inject(ChangeDetectorRef);
+    private readonly sanitizer = inject(DomSanitizer);
+
+    @ViewChild('content', { read: ElementRef, static: true})
+    contentElement!: ElementRef<HTMLDivElement>;
 
     @ViewChild(TkdDropdown, { static: true })
     dropdown!: TkdDropdown;
 
-    @ViewChild('valueTemplate', { read: TemplateRef, static: true })
-    templateRef!: TemplateRef<HTMLElement>;
+    @HostBinding('[attr.tabindex]')
+    @Input({transform: numberAttribute})
+    tabindex = -1;
+
+    @HostBinding('class')
+    classes = '';
 
     @Input({transform: booleanAttribute})
     set selected(v: boolean) {
@@ -56,9 +70,37 @@ export class TkdSelectOption<T = any> {
     @Input()
     value!: T;
 
+    @Input()
+    label!: string | SafeHtml;
+
+    getLabel() {
+        if (typeof this.label === 'string') {
+            return this.label;
+        }
+
+        return this.contentElement.nativeElement.innerText;
+    }
+
     @HostListener('click', ['$event'])
     handleItemClick(event: MouseEvent) {
         this.selectComponent.itemClicked(this, event);
+    }
+
+    setActiveStyles(): void {
+        this.classes = 'bg-subtle';
+        this.cdr.markForCheck();
+    }
+
+    setInactiveStyles(): void {
+        this.classes = '';
+        this.cdr.markForCheck();
+    }
+
+    ngAfterViewInit(): void {
+        if (!this.label) {
+            this.label = this.sanitizer.bypassSecurityTrustHtml(this.contentElement.nativeElement.innerHTML)
+            this.cdr.detectChanges();
+        }
     }
 }
 

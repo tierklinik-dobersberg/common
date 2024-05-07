@@ -6,6 +6,7 @@ import { coerceBooleanProperty, coerceNumberProperty, coerceCssPixelValue } from
 import { TkdDropdownDirective } from "./dropdown-directives";
 import { TemplatePortal } from "@angular/cdk/portal";
 import { AnimationEvent } from '@angular/animations';
+import { A11yModule } from '@angular/cdk/a11y';
 import { NgIf } from '@angular/common';
 
 @Component({
@@ -16,6 +17,7 @@ import { NgIf } from '@angular/common';
   imports: [
     OverlayModule,
     NgIf,
+    A11yModule
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [fadeInAnimation, fadeOutAnimation],
@@ -69,11 +71,15 @@ export class TkdDropdown implements OnInit {
 
   /** The minimum width of the drop-down */
   @Input()
-  set minWidth(val: any) {
-    this._minWidth = coerceCssPixelValue(val)
+  set minWidth(val: string | number | (() => string | number)) {
+    if (typeof val !== 'function') {
+      this._minWidth = () => coerceCssPixelValue(val)
+    } else {
+      this._minWidth = val;
+    }
   }
-  get minWidth() { return this._minWidth }
-  private _minWidth: string | number = 'fit-content';
+  get minWidth(): string | number { return this._minWidth() }
+  private _minWidth: () => string | number = () => 'fit-content';
 
   /** The maximum width of the drop-down */
   @Input()
@@ -211,12 +217,13 @@ export class TkdDropdown implements OnInit {
       })
 
     this.overlayRef.attach(new TemplatePortal(this.overlayContainer, this.viewContainerRef))
+    this.isOpen = true;
 
     this.overlayRef.detachments()
       .subscribe(() => {
         this.overlayRef = null;
         this.activatedTrigger = null;
-
+        this.isOpen = false;
         this.closed.next();
       })
   }
