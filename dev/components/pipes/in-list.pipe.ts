@@ -1,24 +1,21 @@
-import { Pipe, PipeTransform } from "@angular/core";
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'inList',
   pure: true,
   standalone: true,
 })
-export class TkdInListPipe implements PipeTransform {
-  transform<T>(value: T | undefined, list: Iterable<T> | ArrayLike<T> | Set<T> | undefined): boolean {
-    if (value === undefined || value === null) {
-      return false;
+export class InListPipe implements PipeTransform {
+
+  transform<E, K extends keyof E, V extends E[K]>(value: V, list: E[], property: K): boolean;
+  transform<E>(value: E, list: E[]): boolean;
+
+  transform(value: any, list: any[], property?: string): boolean {
+    if (property !== undefined) {
+      return list.find(el => el[property] === value) !== undefined;
     }
 
-    if (list === null || list === undefined) {
-      return false;
-    }
-
-    if (list instanceof Set) {
-      return list.has(value)
-    }
-
-    return Array.from(list).some(t => t === value);
+    return list.find(value) !== undefined
   }
+
 }

@@ -1,75 +1,75 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import { ChangeDetectorRef, Injectable, InjectionToken, inject } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { ChangeDetectorRef, Injectable, InjectionToken, Provider, WritableSignal, computed, inject, signal } from '@angular/core';
 import { map } from 'rxjs/operators';
 
+import { Breakpoints as ThemeBreakpoints } from '@tierklinik-dobersberg/tailwind/breakpoints';
 
-interface BreakpointState {
-  [key: string]: boolean;
+export type BreakpointDefinitions = typeof ThemeBreakpoints;
+
+function convertBreakpoints(bp: BreakpointDefinitions): Record<string, string> {
+  let res: { [key: string]: string } = {};
+
+  Object.keys(bp)
+    .forEach((key: any) => {
+      res[key] = `(min-width: ${(bp as any)[key]})`
+    })
+
+  return res;
 }
 
-export const Breakpoints = {
-    sm: '(min-width: 640px)',
-    md: '(min-width: 768px)',
-    lg: '(min-width: 1024px)',
-    xl: '(min-width: 1280px)',
-    '2xl': '(min-width: 1536px)',
+function inverseBreakpoints(bp: Record<string, string>): Record<string, string> {
+  let res: Record<string, string> = {};
+
+  Object.keys(bp)
+    .forEach((key: string) => {
+      res[bp[key]] = key
+    })
+
+  return res;
+}
+
+export const TKD_BREAKPOINTS = new InjectionToken<BreakpointDefinitions>('TKD_BREAKPOINTS');
+
+export function injectBreakpoints(optional?: boolean): BreakpointDefinitions {
+  return inject(TKD_BREAKPOINTS);
+}
+
+export function provideBreakpoints(bp: BreakpointDefinitions): Provider {
+  return {
+    provide: TKD_BREAKPOINTS,
+    useValue: bp,
+  }
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class LayoutService {
-  breakpoints: Observable<{ [key: string]: boolean }>;
+  private _breakpoints = convertBreakpoints(injectBreakpoints(true) || ThemeBreakpoints);
+  private _inverse = inverseBreakpoints(this._breakpoints);
 
-  private onUpdate = new BehaviorSubject<void>(undefined);
-  private state: BreakpointState = {};
+  readonly sm = signal<boolean>(false);
+  readonly md = signal<boolean>(false);
+  readonly lg = signal<boolean>(false);
+  readonly xl = signal<boolean>(false);
+  readonly xxl = signal<boolean>(false);
 
-  get change(): Observable<void> {
-    return this.onUpdate.asObservable();
-  }
+  readonly drawerWidth = computed(() => {
+    if (this.sm()) {
+      return `100vw`;
+    }
 
-  get sm() {
-    return this.state[Breakpoints.sm]
-  }
+    if (this.lg()) {
+      return `25vw`;
+    }
 
-  get md() {
-    return this.state[Breakpoints.md]
-  }
-
-  get lg() {
-    return this.state[Breakpoints.lg]
-  }
-
-  get xl() {
-    return this.state[Breakpoints.xl]
-  }
-
-  get xxl() {
-    return this.state[Breakpoints['2xl']]
-  }
-
-  get drawerWidth(): Observable<string> {
-    return this.change
-      .pipe(map(() => {
-        return this.sm
-          ? '100vw'
-          : this.lg
-            ? '25vw'
-            : '50vw';
-      }));
-  }
+    return `50vw`;
+  })
 
   /** Automatically adds an update listener to trigger a change detection cycle.
    *  Must be executed from an injection context.
    */
   withAutoUpdate(cdr?: ChangeDetectorRef): this {
-    cdr = cdr || inject(ChangeDetectorRef);
-
-    this.change
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => cdr!.markForCheck())
 
     return this
   }
@@ -78,15 +78,17 @@ export class LayoutService {
     private breakpointObserver: BreakpointObserver
   ) {
 
-    this.breakpoints = this.breakpointObserver.observe(Object.values(Breakpoints))
+    const breakpoints = this.breakpointObserver.observe(Object.values(this._breakpoints))
       .pipe(map(breakpointState => {
         return breakpointState.breakpoints;
       }));
 
-    this.breakpoints.subscribe(states => {
-      this.state = states;
-
-      this.onUpdate.next();
+    breakpoints.subscribe(states => {
+      Object.keys(states)
+        .forEach(bp => {
+          const key = this._inverse[bp];
+          ((this as any)[key] as WritableSignal<boolean>).set(states[bp]);
+        })
     });
   }
 } 

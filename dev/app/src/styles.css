@@ -6,14 +6,17 @@
 @tailwind variants;
 @tailwind components;
 
+:root {
+	--font-sans: '';
+}
+
 @import '~@angular/cdk/overlay-prebuilt.css';
+@import '~@tierklinik-dobersberg/tailwind/theme.css';
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Lexend:wght@100;300;400;500&display=swap');
 
-body {
-    font-family: 'Lexend', 'Inter', sans-serif;
-}
 
-.cdk-menu {
-    @apply border-b border-subtle flex md:hidden items-center justify-center p-4 text-base font-light;
+html, body {
+    font-family: 'Lexend', 'Inter', sans-serif;
+    font-size: 14px;
 }

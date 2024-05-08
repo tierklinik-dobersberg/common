@@ -1,21 +1,22 @@
 {
   "name": "@tierklinik-dobersberg/tailwind",
-  "version": "0.0.10",
+  "version": "0.1.0",
   "author": "Tierklinik Dobersberg",
   "license": "MIT",
   "repository": {
     "url": "https://github.com/tierklinik-dobersberg/common.git"
   },
   "scripts": {
-    "build": "tsc && cp ./package.json ./dist"
+    "build": "tsc && cp ./package.json ./src/theme.css ./dist"
   },
   "description": "Tailwind configuration for TKD services and user interfaces",
-  "main": "./tailwind.config.js",
   "peerDependencies": {
+    "@spartan-ng/ui-core": "^0.0.1-alpha.347",
     "@tailwindcss/typography": "^0.5.10",
     "tailwindcss": "^3.3.5"
   },
   "devDependencies": {
+    "@spartan-ng/ui-core": "^0.0.1-alpha.347",
     "@types/node": "^20.10.4",
     "typescript": "^5.3.3",
     "webpack": "^5.89.0",
@@ -24,5 +25,16 @@
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "exports": {
+    "./theme.css": {
+      "style": "./theme.css"
+    },
+    "./config.js": "./tailwind.config.js",
+    "./breakpoints": {
+      "types": "./breakpoints.d.ts",
+      "default": "./breakpoints.js",
+      "import": "./breakpoints.js"
+    }
+  }
 }

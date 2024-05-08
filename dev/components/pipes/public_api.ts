@@ -9,3 +9,5 @@ export * from './in-list.pipe';
 export * from './to-user.pipe';
 export * from './user.pipes';
 export * from './duration';
+export * from './to-date.pipe';
+export * from './filter.pipe';

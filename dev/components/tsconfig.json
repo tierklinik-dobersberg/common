@@ -1,13 +1,6 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    "rootDir": ".",
-    "paths": {
-      "@tierklinik-dobersberg/angular/*": [
-        "./*"
-      ]
-    },
     "alwaysStrict": true,
     "strictFunctionTypes": true
   },

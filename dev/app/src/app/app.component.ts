@@ -5,12 +5,10 @@ import { Component, OnInit, TemplateRef, ViewChild, ViewContainerRef, inject } f
 import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { NgIconsModule } from '@ng-icons/core';
-import { TkdDropdown, TkdDropdownDirective } from '@tierklinik-dobersberg/angular/dropdown';
-import { TkdMenuItem, TkdSubMenu } from '@tierklinik-dobersberg/angular/menu';
-import { TkdSelectModule } from '@tierklinik-dobersberg/angular/select';
-import { TkdDialogService } from '@tierklinik-dobersberg/angular/dialog'
 import { TemplatePortal } from '@angular/cdk/portal';
-import { TkdSwitchDirective } from '@tierklinik-dobersberg/angular/switch';
+import { HlmButtonDirective } from '@tierklinik-dobersberg/angular/ui-button-helm/src';
+import { HlmIconComponent, provideIcons } from '@tierklinik-dobersberg/angular/ui-icon-helm/src';
+import { lucideMail } from '@ng-icons/lucide';
 
 @Component({
   selector: 'app-root',
@@ -18,19 +16,17 @@ import { TkdSwitchDirective } from '@tierklinik-dobersberg/angular/switch';
   imports: [
     CommonModule,
     RouterOutlet,
-    TkdDropdown,
-    TkdDropdownDirective,
-    TkdMenuItem,
-    TkdSubMenu,
-    TkdSelectModule,
-    TkdSwitchDirective,
     CdkMenuModule,
     OverlayModule,
     NgIconsModule,
     FormsModule,
+    HlmButtonDirective,
+    HlmIconComponent
   ],
   providers: [
-    TkdDialogService,
+    ...provideIcons({
+      "lucideMail": lucideMail
+    }),
   ],
   templateUrl: './app.component.html',
   styles: [
@@ -41,18 +37,5 @@ import { TkdSwitchDirective } from '@tierklinik-dobersberg/angular/switch';
     `
   ],
 })
-export class AppComponent implements OnInit {
-  title = 'showcase';
-  select: string = '';
-
-  private readonly dialog = inject(TkdDialogService);
-  private readonly viewRef = inject(ViewContainerRef);
-
-  @ViewChild('customTemplate', { static: true, read: TemplateRef })
-  dialogTemplate!: TemplateRef<any>;
-
-  ngOnInit(): void {
-    const portal = new TemplatePortal(this.dialogTemplate, this.viewRef, undefined);
-
-  }
+export class AppComponent {
 }

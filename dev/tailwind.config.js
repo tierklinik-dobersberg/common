@@ -1,8 +1,9 @@
-const cfg = require('@tierklinik-dobersberg/tailwind');
-
 module.exports = {
-    ...cfg.default,
-
+    darkMode: 'class',
+    presets: [require('@spartan-ng/ui-core/hlm-tailwind-preset')],
+    theme: {
+        extend: {},
+    },
     content: [
         "./**/*.{html,ts,css,scss}",
     ],

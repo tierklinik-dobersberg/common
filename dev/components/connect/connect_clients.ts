@@ -1,8 +1,8 @@
-import { Inject, InjectionToken, ModuleWithProviders, NgModule, Provider } from "@angular/core";
+import { Inject, InjectionToken, ModuleWithProviders, NgModule, Provider, inject } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Code, ConnectError, Interceptor, PromiseClient, Transport, createPromiseClient } from "@connectrpc/connect";
 import { createConnectTransport } from "@connectrpc/connect-web";
-import { AuthService, CalendarService, RoleService, SelfServiceService, UserService, RosterService, WorkShiftService, HolidayService, OffTimeService, WorkTimeService, CommentService, CallService, ConstraintService } from "@tierklinik-dobersberg/apis";
+import { AuthService, CalendarService, RoleService, SelfServiceService, UserService, RosterService, WorkShiftService, HolidayService, OffTimeService, WorkTimeService, CommentService, CallService, ConstraintService, ListRolesResponse, Calendar } from "@tierklinik-dobersberg/apis";
 
 // TODO(ppacher): migrate the import once we re-released @tierklinik-dobersberg/apis
 import { NotifyService } from '@tierklinik-dobersberg/apis/gen/es/tkd/idm/v1/notify_service_connect';
@@ -91,6 +91,59 @@ export const connectProviders: Provider[] = [
   makeProvider(CONSTRAINT_SERVICE, ConstraintService, "rosterService"),
   makeProvider(COMMENT_SERVICE, CommentService, "commentService")
 ]
+
+export function injectAuthService(): AuthServiceClient {
+  return inject(AUTH_SERVICE);
+}
+
+export function injectSelfService(): SelfServiceClient {
+  return inject(SELF_SERVICE);
+}
+
+export function injectUserService(): UserServiceClient {
+  return inject(USER_SERVICE);
+}
+
+export function injectRoleService(): RoleServiceClient {
+  return inject(ROLE_SERVICE)
+}
+
+export function injectNotifyService(): NotifyServiceClient {
+  return inject(NOTIFY_SERIVCE);
+}
+
+export function injectCalendarService(): CalendarServiceClient {
+  return inject(CALENDAR_SERVICE)
+}
+
+export function injectHolidayService(): HolidayServiceClient {
+  return inject(HOLIDAY_SERVICE)
+}
+
+export function injectRosterService(): RosterServiceClient {
+  return inject(ROSTER_SERVICE)
+}
+
+export function injectWorkShiftService(): WorkShiftServiceClient {
+  return inject(WORK_SHIFT_SERVICE)
+}
+
+export function injectCallService(): CallServiceClient {
+  return inject(CALL_SERVICE)
+}
+
+export function injectOfftimeService(): OffTimeServiceClient {
+  return inject(OFFTIME_SERVICE)
+}
+
+export function injectWorktimeSerivce(): WorkTimeServiceClient {
+  return inject(WORKTIME_SERVICE);
+}
+
+export function injectCommentService(): CommentServiceClient {
+  return inject(COMMENT_SERVICE);
+}
+
 
 const retryRefreshToken: (transport: Transport, activatedRoute: ActivatedRoute, router: Router, handler: UnauthtenticatedHandlerFunc[]) => Interceptor = (transport, activatedRoute, router, handler) => {
   let pendingRefresh: Promise<void> | null = null;

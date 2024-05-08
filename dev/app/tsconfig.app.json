@@ -3,13 +3,7 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "outDir": "../out-tsc/app",
-    "baseUrl": ".",
     "types": [],
-    "paths": {
-      "@tierklinik-dobersberg/angular/*": [
-        "../components/*"
-      ]
-    }
   },
   "files": [
     "src/main.ts"
