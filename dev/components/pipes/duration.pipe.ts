@@ -1,6 +1,6 @@
 import { isDevMode, Pipe, PipeTransform } from '@angular/core';
 import { PartialMessage, Duration as ProtoDuration } from '@bufbuild/protobuf';
-import { DurationLayout, Duration as DurationUtil } from './duration';
+import { DurationLayout, Duration as DurationUtil } from '@tierklinik-dobersberg/angular/utils/date';
 
 export type InputUnit = 'ns' | 'µs' | 'ms' | 's' | 'm' | 'h';
 

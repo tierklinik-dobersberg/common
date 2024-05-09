@@ -1,13 +1,13 @@
 import { Duration as ProtoDuration } from '@bufbuild/protobuf';
-import { padLeft } from './utils';
+import { padLeft } from '@tierklinik-dobersberg/angular/utils/strings';
 
-const nanosecond = 1;
-const microsecond = 1000 * nanosecond;
-const millisecond = 1000 * microsecond;
-const second = 1000 * millisecond;
-const minute = 60 * second;
-const hour = 60 * minute;
-const day = 24 * hour;
+export const nanosecond = 1;
+export const microsecond = 1000 * nanosecond;
+export const millisecond = 1000 * microsecond;
+export const second = 1000 * millisecond;
+export const minute = 60 * second;
+export const hour = 60 * minute;
+export const day = 24 * hour;
 
 export type DurationLayout = 'default-hours' | 'default' | 'hh:mm' | 'hh:mm:ss';
 
@@ -264,20 +264,3 @@ export class Duration {
   }
 }
 
-export function formatDate(d: Date | string | null, sep = '-'): string {
-  if (d === null) {
-    return ''
-  }
-
-  d = new Date(d)
-  let month = '' + (d.getMonth() + 1)
-  let day = '' + d.getDate()
-  let year = d.getFullYear()
-
-  if (month.length < 2)
-    month = '0' + month;
-  if (day.length < 2)
-    day = '0' + day;
-
-  return [year, month, day].join(sep);
-}
