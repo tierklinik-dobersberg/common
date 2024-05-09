@@ -1,6 +1,6 @@
 {
   "name": "@tierklinik-dobersberg/angular",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Tierklinik Dobersberg",
   "description": "Common angular components and directives for Tierklinik Dobersberg based on spartan-ng.",
   "license": "MIT",
