@@ -1,6 +1,6 @@
 {
   "name": "@tierklinik-dobersberg/tailwind",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Tierklinik Dobersberg",
   "license": "MIT",
   "repository": {
@@ -33,8 +33,9 @@
     "./config.js": "./tailwind.config.js",
     "./breakpoints": {
       "types": "./breakpoints.d.ts",
-      "default": "./breakpoints.js",
-      "import": "./breakpoints.js"
+      "esm": "./breakpoints.js",
+      "esm2022": "./breakpoints.js",
+      "default": "./breakpoints.js"
     }
   }
 }
