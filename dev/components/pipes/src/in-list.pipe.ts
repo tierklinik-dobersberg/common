@@ -39,7 +39,7 @@ export class TkdInListPipe implements PipeTransform {
       return coerced.find(el => el[property] === value) !== undefined;
     }
 
-    return coerced.find(value) !== undefined
+    return coerced.find(v => v === value) !== undefined
   }
 
 }

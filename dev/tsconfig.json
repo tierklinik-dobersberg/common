@@ -29,109 +29,109 @@
         "./components/*/src"
       ],
       "@tierklinik-dobersberg/angular/button": [
-        "./components/ui-button-helm/src/index.ts"
+        "./components/button/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/icon": [
-        "./components/ui-icon-helm/src/index.ts"
+        "./components/icon/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/accordion": [
-        "./components/ui-accordion-helm/src/index.ts"
+        "./components/accordion/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/alert": [
-        "./components/ui-alert-helm/src/index.ts"
+        "./components/alert/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/alertdialog": [
-        "./components/ui-alertdialog-helm/src/index.ts"
+        "./components/alertdialog/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/aspectratio": [
-        "./components/ui-aspectratio-helm/src/index.ts"
+        "./components/aspectratio/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/avatar": [
-        "./components/ui-avatar-helm/src/index.ts"
+        "./components/avatar/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/badge": [
-        "./components/ui-badge-helm/src/index.ts"
+        "./components/badge/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/card": [
-        "./components/ui-card-helm/src/index.ts"
+        "./components/card/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/command": [
-        "./components/ui-command-helm/src/index.ts"
+        "./components/command/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/dialog": [
-        "./components/ui-dialog-helm/src/index.ts"
+        "./components/dialog/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/input": [
-        "./components/ui-input-helm/src/index.ts"
+        "./components/input/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/label": [
-        "./components/ui-label-helm/src/index.ts"
+        "./components/label/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/menu": [
-        "./components/ui-menu-helm/src/index.ts"
+        "./components/menu/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/popover": [
-        "./components/ui-popover-helm/src/index.ts"
+        "./components/popover/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/progress": [
-        "./components/ui-progress-helm/src/index.ts"
+        "./components/progress/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/radiogroup": [
-        "./components/ui-radiogroup-helm/src/index.ts"
+        "./components/radiogroup/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/scrollarea": [
-        "./components/ui-scrollarea-helm/src/index.ts"
+        "./components/scrollarea/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/separator": [
-        "./components/ui-separator-helm/src/index.ts"
+        "./components/separator/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/sheet": [
-        "./components/ui-sheet-helm/src/index.ts"
+        "./components/sheet/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/skeleton": [
-        "./components/ui-skeleton-helm/src/index.ts"
+        "./components/skeleton/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/spinner": [
-        "./components/ui-spinner-helm/src/index.ts"
+        "./components/spinner/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/switch": [
-        "./components/ui-switch-helm/src/index.ts"
+        "./components/switch/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/tabs": [
-        "./components/ui-tabs-helm/src/index.ts"
+        "./components/tabs/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/toggle": [
-        "./components/ui-toggle-helm/src/index.ts"
+        "./components/toggle/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/typography": [
-        "./components/ui-typography-helm/src/index.ts"
+        "./components/typography/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/table": [
-        "./components/ui-table-helm/src/index.ts"
+        "./components/table/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/hovercard": [
-        "./components/ui-hovercard-helm/src/index.ts"
+        "./components/hovercard/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/checkbox": [
-        "./components/ui-checkbox-helm/src/index.ts"
+        "./components/checkbox/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/tooltip": [
-        "./components/ui-tooltip-helm/src/index.ts"
+        "./components/tooltip/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/pagination": [
-        "./components/ui-pagination-helm/src/index.ts"
+        "./components/pagination/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/carousel": [
-        "./components/ui-carousel-helm/src/index.ts"
+        "./components/carousel/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/select": [
-        "./components/ui-select-helm/src/index.ts"
+        "./components/select/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/sonner": [
-        "./components/ui-sonner-helm/src/index.ts"
+        "./components/sonner/src/index.ts"
       ],
       "@tierklinik-dobersberg/angular/helm": [
-        "./components/ui-helm-helm/src/index.ts"
+        "./components/helm/src/index.ts"
       ]
     }
   },

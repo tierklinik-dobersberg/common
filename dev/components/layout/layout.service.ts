@@ -1,5 +1,5 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Injectable, InjectionToken, Provider, WritableSignal, computed, inject, signal } from '@angular/core';
+import { ChangeDetectorRef, Injectable, InjectionToken, Provider, Signal, WritableSignal, computed, inject, isDevMode, signal } from '@angular/core';
 import { map } from 'rxjs/operators';
 
 import { Breakpoints as ThemeBreakpoints } from '@tierklinik-dobersberg/tailwind/breakpoints';
@@ -11,7 +11,15 @@ function convertBreakpoints(bp: BreakpointDefinitions): Record<string, string> {
 
   Object.keys(bp)
     .forEach((key: any) => {
-      res[key] = `(min-width: ${(bp as any)[key]})`
+      const value: string | {
+        raw: string
+      } = (bp as any)[key];
+
+      if (typeof value === 'object') {
+        res[key] = value.raw
+      } else {
+        res[key] = `(min-width: ${value})`
+      }
     })
 
   return res;
@@ -53,6 +61,7 @@ export class LayoutService {
   readonly lg = signal<boolean>(false);
   readonly xl = signal<boolean>(false);
   readonly xxl = signal<boolean>(false);
+  readonly print = signal<boolean>(false);
 
   readonly drawerWidth = computed(() => {
     if (this.sm()) {
@@ -70,7 +79,6 @@ export class LayoutService {
    *  Must be executed from an injection context.
    */
   withAutoUpdate(cdr?: ChangeDetectorRef): this {
-
     return this
   }
 
@@ -86,9 +94,20 @@ export class LayoutService {
     breakpoints.subscribe(states => {
       Object.keys(states)
         .forEach(bp => {
-          const key = this._inverse[bp];
-          ((this as any)[key] as WritableSignal<boolean>).set(states[bp]);
+
+          let key = this._inverse[bp];
+          if (key === "2xl") {
+            key = "xxl";
+          }
+
+          const signal: WritableSignal<boolean> | undefined = (this as any)[key];
+
+          if (signal) {
+            signal.set(states[bp]);
+          } else {
+            console.error(`failed to update layout signal for key ${bp}`);
+          }
         })
     });
   }
-} 
+}
