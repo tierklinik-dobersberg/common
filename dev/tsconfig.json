@@ -24,9 +24,8 @@
       "dom"
     ],
     "paths": {
-      "@tierklinik-dobersberg/angular/*": [
-        "./components/*",
-        "./components/*/src"
+      "@tierklinik-dobersberg/angular/connect": [
+        "./components/connect/index.ts"
       ],
       "@tierklinik-dobersberg/angular/button": [
         "./components/button/src/index.ts"
@@ -132,6 +131,10 @@
       ],
       "@tierklinik-dobersberg/angular/helm": [
         "./components/helm/src/index.ts"
+      ],
+      "@tierklinik-dobersberg/angular/*": [
+        "./components/*",
+        "./components/*/src"
       ]
     }
   },
