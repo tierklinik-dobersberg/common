@@ -1,16 +1,18 @@
-import { InjectionToken, ModuleWithProviders, NgModule, Provider, inject } from "@angular/core";
+import { Inject, InjectionToken, ModuleWithProviders, NgModule, Provider, inject } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Code, ConnectError, Interceptor, PromiseClient, Transport, createPromiseClient } from "@connectrpc/connect";
 import { createConnectTransport } from "@connectrpc/connect-web";
-import { AuthService, CalendarService, RoleService, SelfServiceService, UserService, RosterService, WorkShiftService, HolidayService, OffTimeService, WorkTimeService, CommentService, CallService, ConstraintService, ListRolesResponse, Calendar } from "@tierklinik-dobersberg/apis";
 
-// TODO(ppacher): migrate the import once we re-released @tierklinik-dobersberg/apis
-import { NotifyService } from '@tierklinik-dobersberg/apis/gen/es/tkd/idm/v1/notify_service_connect';
-import { CustomerService } from '@tierklinik-dobersberg/apis/gen/es/tkd/customer/v1/customer_connect';
+import { AuthService, NotifyService, RoleService, SelfServiceService, UserService } from '@tierklinik-dobersberg/apis/idm/v1'
+import { CalendarService, HolidayService } from '@tierklinik-dobersberg/apis/calendar/v1';
+import { ConstraintService, OffTimeService, RosterService, WorkShiftService, WorkTimeService } from '@tierklinik-dobersberg/apis/roster/v1';
+import { CallService, VoiceMailService } from '@tierklinik-dobersberg/apis/pbx3cx/v1';
+import { CustomerService } from '@tierklinik-dobersberg/apis/customer/v1';
+import { CommentService } from '@tierklinik-dobersberg/apis/comment/v1';
+import { EventService } from '@tierklinik-dobersberg/apis/events/v1';
 
 // AnyFn is not exporeted by @connectrpc/connect
 type AnyFn = Interceptor extends ((next: infer T) => infer T) ? T : never;
-
 
 export interface ConnectConfig {
   accountService: string;
@@ -19,6 +21,7 @@ export interface ConnectConfig {
   commentService: string;
   callService: string;
   customerService: string;
+  eventService: string;
 }
 
 export type UnauthtenticatedHandlerFunc = (err: ConnectError) => void;
@@ -41,6 +44,8 @@ export const COMMENT_SERVICE = new InjectionToken<CommentServiceClient>('COMMENT
 export const CONSTRAINT_SERVICE = new InjectionToken<ConstraintServiceClient>('CONSTRAINT_SERVICE');
 export const NOTIFY_SERIVCE = new InjectionToken<NotifyServiceClient>('NOTIFY_SERVICE');
 export const CUSTOMER_SERVICE = new InjectionToken<CustomerServiceClient>('CUSTOMER_SERVICE');
+export const VOICE_MAIL_SERIVCE = new InjectionToken<VoiceMailServiceClient>('VOICE_MAIL_SERVICE')
+export const EVENT_SERVICE = new InjectionToken<EventServiceClient>('EVENT_SERVICE')
 
 export type AuthServiceClient = PromiseClient<typeof AuthService>;
 export type SelfServiceClient = PromiseClient<typeof SelfServiceService>;
@@ -57,6 +62,8 @@ export type CommentServiceClient = PromiseClient<typeof CommentService>;
 export type ConstraintServiceClient = PromiseClient<typeof ConstraintService>;
 export type NotifyServiceClient = PromiseClient<typeof NotifyService>;
 export type CustomerServiceClient = PromiseClient<typeof CustomerService>;
+export type VoiceMailServiceClient = PromiseClient<typeof VoiceMailService>;
+export type EventServiceClient = PromiseClient<typeof EventService>;
 
 function serviceClientFactory(type: any, ep: keyof ConnectConfig) {
   return ((route: ActivatedRoute, router: Router, cfg: ConnectConfig, handler: UnauthtenticatedHandlerFunc[]) => {
@@ -89,11 +96,13 @@ export const connectProviders: Provider[] = [
   makeProvider(ROSTER_SERVICE, RosterService, "rosterService"),
   makeProvider(WORK_SHIFT_SERVICE, WorkShiftService, "rosterService"),
   makeProvider(CALL_SERVICE, CallService, "callService"),
+  makeProvider(VOICE_MAIL_SERIVCE, VoiceMailService, "callService"),
   makeProvider(OFFTIME_SERVICE, OffTimeService, "rosterService"),
   makeProvider(WORKTIME_SERVICE, WorkTimeService, "rosterService"),
   makeProvider(CONSTRAINT_SERVICE, ConstraintService, "rosterService"),
   makeProvider(COMMENT_SERVICE, CommentService, "commentService"),
-  makeProvider(CUSTOMER_SERVICE, CustomerService, "customerService")
+  makeProvider(CUSTOMER_SERVICE, CustomerService, "customerService"),
+  makeProvider(EVENT_SERVICE, EventService, "eventService"),
 ]
 
 export function injectAuthService(): AuthServiceClient {
@@ -152,6 +161,13 @@ export function injectCustomerService(): CustomerServiceClient {
   return inject(CUSTOMER_SERVICE);
 }
 
+export function injectVoiceMailService(): VoiceMailServiceClient {
+  return inject(VOICE_MAIL_SERIVCE);
+}
+
+export function injectEventService(): EventServiceClient {
+  return inject(EVENT_SERVICE);
+}
 
 const retryRefreshToken: (transport: Transport, activatedRoute: ActivatedRoute, router: Router, handler: UnauthtenticatedHandlerFunc[]) => Interceptor = (transport, activatedRoute, router, handler) => {
   let pendingRefresh: Promise<void> | null = null;
@@ -221,8 +237,6 @@ const retryRefreshToken: (transport: Transport, activatedRoute: ActivatedRoute, 
         // retry with a new access token.
         return await next(req);
       }
-
-      console.error('refresh-token-interceptor: unhandled error: ', err)
 
       throw err;
     }

@@ -1,5 +1,5 @@
 import { PipeTransform, Pipe } from "@angular/core"
-import { Role } from "@tierklinik-dobersberg/apis"
+import { Role } from "@tierklinik-dobersberg/apis/idm/v1"
 
 @Pipe({
   name: 'roleList',

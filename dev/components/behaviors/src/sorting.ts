@@ -1,7 +1,9 @@
 import { Duration, Timestamp } from "@bufbuild/protobuf";
 import { DisplayNamePipe } from "@tierklinik-dobersberg/angular/pipes";
 import { coerceDate, getDaySeconds } from "@tierklinik-dobersberg/angular/utils/date";
-import { Daytime, Profile } from "@tierklinik-dobersberg/apis";
+import { DayTime } from "@tierklinik-dobersberg/apis/common/v1";
+import { Profile } from "@tierklinik-dobersberg/apis/idm/v1";
+import { Daytime } from "@tierklinik-dobersberg/apis/roster/v1";
 
 export type Optional<T> = T | null | undefined;
 
@@ -20,7 +22,7 @@ export function sortProtoDuration(a: Optional<Duration>, b: Optional<Duration>):
   return (b ? getDaySeconds(b) : 0) - (a ? getDaySeconds(a) : 0);
 }
 
-export function sortProtoDaytime(a: Optional<Daytime>, b: Optional<Daytime>): number {
+export function sortProtoDaytime(a: Optional<Daytime | DayTime>, b: Optional<Daytime | DayTime>): number {
   const minutesA = Number(a?.hour || 0) * 60 + Number(a?.minute || 0);
   const minutesB = Number(b?.hour || 0) * 60 + Number(b?.minute || 0);
 

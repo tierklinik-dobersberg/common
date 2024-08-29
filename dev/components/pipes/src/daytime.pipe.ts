@@ -1,6 +1,7 @@
 import { Duration } from '@bufbuild/protobuf';
 import { Pipe, PipeTransform } from "@angular/core";
-import { Daytime } from "@tierklinik-dobersberg/apis";
+import { Daytime } from "@tierklinik-dobersberg/apis/roster/v1";
+import { DayTime } from "@tierklinik-dobersberg/apis/common/v1";
 import { padLeft } from "@tierklinik-dobersberg/angular/utils/strings";
 
 @Pipe({
@@ -9,7 +10,7 @@ import { padLeft } from "@tierklinik-dobersberg/angular/utils/strings";
   standalone: true,
 })
 export class DaytimePipe implements PipeTransform {
-  transform(value?: Daytime | string, duration?: Duration) {
+  transform(value?: DayTime | Daytime | string, duration?: Duration) {
     if (!value) {
       return ''
     }

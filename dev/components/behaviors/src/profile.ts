@@ -2,7 +2,7 @@ import { toast } from 'ngx-sonner';
 import { Injectable, computed, inject, signal } from "@angular/core";
 import { ConnectError } from "@connectrpc/connect";
 import { injectAuthService, injectUserService } from "@tierklinik-dobersberg/angular/connect";
-import { Profile, IntrospectResponse } from "@tierklinik-dobersberg/apis";
+import { Profile, IntrospectResponse } from "@tierklinik-dobersberg/apis/idm/v1";
 import { interval, retry, startWith, switchMap } from 'rxjs';
 
 export function injectCurrentProfile() {
