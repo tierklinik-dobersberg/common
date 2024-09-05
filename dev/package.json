@@ -55,7 +55,7 @@
     "@ng-icons/core": "^26.3.0",
     "@ng-icons/heroicons": "^26.3.0",
     "@spartan-ng/cli": "^0.0.1-alpha.350",
-    "@tierklinik-dobersberg/apis": "0.0.40",
+    "@tierklinik-dobersberg/apis": "0.0.51",
     "@tierklinik-dobersberg/tailwind": ">=0.1.1",
     "@types/body-parser": "^1.19.5",
     "@types/connect": "^3.4.38",

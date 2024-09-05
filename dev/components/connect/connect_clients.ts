@@ -3,13 +3,15 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Code, ConnectError, Interceptor, PromiseClient, Transport, createPromiseClient } from "@connectrpc/connect";
 import { createConnectTransport } from "@connectrpc/connect-web";
 
-import { AuthService, NotifyService, RoleService, SelfServiceService, UserService } from '@tierklinik-dobersberg/apis/idm/v1'
+import { AuthService, NotifyService, RegisteredPasskey, RoleService, SelfServiceService, UserService } from '@tierklinik-dobersberg/apis/idm/v1'
 import { CalendarService, HolidayService } from '@tierklinik-dobersberg/apis/calendar/v1';
-import { ConstraintService, OffTimeService, RosterService, WorkShiftService, WorkTimeService } from '@tierklinik-dobersberg/apis/roster/v1';
-import { CallService, VoiceMailService } from '@tierklinik-dobersberg/apis/pbx3cx/v1';
+import { ConstraintService, OffTimeService, RosterChangedEvent, RosterService, WorkShiftService, WorkTimeService } from '@tierklinik-dobersberg/apis/roster/v1';
+import { CallService, OnCallChangeEvent, OverwriteCreatedEvent, VoiceMailService } from '@tierklinik-dobersberg/apis/pbx3cx/v1';
 import { CustomerService } from '@tierklinik-dobersberg/apis/customer/v1';
 import { CommentService } from '@tierklinik-dobersberg/apis/comment/v1';
+import { TaskService, BoardService } from '@tierklinik-dobersberg/apis/tasks/v1';
 import { EventService } from '@tierklinik-dobersberg/apis/events/v1';
+import { createRegistry, IExtensionRegistry, IMessageTypeRegistry } from "@bufbuild/protobuf";
 
 // AnyFn is not exporeted by @connectrpc/connect
 type AnyFn = Interceptor extends ((next: infer T) => infer T) ? T : never;
@@ -22,6 +24,9 @@ export interface ConnectConfig {
   callService: string;
   customerService: string;
   eventService: string;
+  taskService: string;
+
+  registry?: IMessageTypeRegistry & Partial<IExtensionRegistry>;
 }
 
 export type UnauthtenticatedHandlerFunc = (err: ConnectError) => void;
@@ -46,6 +51,8 @@ export const NOTIFY_SERIVCE = new InjectionToken<NotifyServiceClient>('NOTIFY_SE
 export const CUSTOMER_SERVICE = new InjectionToken<CustomerServiceClient>('CUSTOMER_SERVICE');
 export const VOICE_MAIL_SERIVCE = new InjectionToken<VoiceMailServiceClient>('VOICE_MAIL_SERVICE')
 export const EVENT_SERVICE = new InjectionToken<EventServiceClient>('EVENT_SERVICE')
+export const TASK_SERVICE = new InjectionToken<TaskServiceClient>('TASK_SERVICE');
+export const BOARD_SERVICE = new InjectionToken<BoardServiceClient>('TASK_SERVICE');
 
 export type AuthServiceClient = PromiseClient<typeof AuthService>;
 export type SelfServiceClient = PromiseClient<typeof SelfServiceService>;
@@ -64,15 +71,17 @@ export type NotifyServiceClient = PromiseClient<typeof NotifyService>;
 export type CustomerServiceClient = PromiseClient<typeof CustomerService>;
 export type VoiceMailServiceClient = PromiseClient<typeof VoiceMailService>;
 export type EventServiceClient = PromiseClient<typeof EventService>;
+export type TaskServiceClient = PromiseClient<typeof TaskService>;
+export type BoardServiceClient = PromiseClient<typeof BoardService>;
 
-function serviceClientFactory(type: any, ep: keyof ConnectConfig) {
+function serviceClientFactory(type: any, ep: Exclude<keyof ConnectConfig, 'registry'>) {
   return ((route: ActivatedRoute, router: Router, cfg: ConnectConfig, handler: UnauthtenticatedHandlerFunc[]) => {
     let transport = transportFactory(route, router, cfg, ep, handler);
     return createPromiseClient(type, transport);
   });
 }
 
-function makeProvider(token: InjectionToken<any>, type: any, ep: keyof ConnectConfig): Provider {
+function makeProvider(token: InjectionToken<any>, type: any, ep: Exclude<keyof ConnectConfig, 'registry'>): Provider {
   return {
     deps: [
       ActivatedRoute,
@@ -103,6 +112,8 @@ export const connectProviders: Provider[] = [
   makeProvider(COMMENT_SERVICE, CommentService, "commentService"),
   makeProvider(CUSTOMER_SERVICE, CustomerService, "customerService"),
   makeProvider(EVENT_SERVICE, EventService, "eventService"),
+  makeProvider(TASK_SERVICE, TaskService, "taskService"),
+  makeProvider(BOARD_SERVICE, BoardService, "taskService")
 ]
 
 export function injectAuthService(): AuthServiceClient {
@@ -167,6 +178,14 @@ export function injectVoiceMailService(): VoiceMailServiceClient {
 
 export function injectEventService(): EventServiceClient {
   return inject(EVENT_SERVICE);
+}
+
+export function injectBoardService(): BoardServiceClient {
+  return inject(BOARD_SERVICE)
+}
+
+export function injectTaskService(): TaskServiceClient {
+  return inject(TASK_SERVICE);
 }
 
 const retryRefreshToken: (transport: Transport, activatedRoute: ActivatedRoute, router: Router, handler: UnauthtenticatedHandlerFunc[]) => Interceptor = (transport, activatedRoute, router, handler) => {
@@ -243,14 +262,21 @@ const retryRefreshToken: (transport: Transport, activatedRoute: ActivatedRoute, 
   }
 }
 
-export function transportFactory(route: ActivatedRoute, router: Router, cfg: ConnectConfig, endpoint: keyof ConnectConfig, handler: UnauthtenticatedHandlerFunc[]): Transport {
+const defaultRegistry = createRegistry(
+    RosterChangedEvent,
+    OnCallChangeEvent,
+    OverwriteCreatedEvent,
+)
+
+export function transportFactory(route: ActivatedRoute, router: Router, cfg: ConnectConfig, endpoint: Exclude<keyof ConnectConfig, 'registry'>, handler: UnauthtenticatedHandlerFunc[]): Transport {
   const retryTransport = createConnectTransport({baseUrl: cfg["accountService"], credentials: 'include'})
 
   return createConnectTransport({
     baseUrl: cfg[endpoint],
     credentials: 'include',
     jsonOptions: {
-      ignoreUnknownFields: true
+      ignoreUnknownFields: true,
+      typeRegistry: cfg.registry || defaultRegistry,
     },
     interceptors: [
       retryRefreshToken(retryTransport, route, router, handler),

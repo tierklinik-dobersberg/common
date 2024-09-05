@@ -1,6 +1,6 @@
 {
   "name": "@tierklinik-dobersberg/angular",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "Tierklinik Dobersberg",
   "description": "Common angular components and directives for Tierklinik Dobersberg based on spartan-ng.",
   "license": "MIT",
@@ -42,7 +42,7 @@
     "@spartan-ng/ui-tabs-brain": "0.0.1-alpha.347",
     "@spartan-ng/ui-toggle-brain": "0.0.1-alpha.347",
     "@spartan-ng/ui-tooltip-brain": "0.0.1-alpha.347",
-    "@tierklinik-dobersberg/apis": ">=0.0.40",
+    "@tierklinik-dobersberg/apis": ">=0.0.51",
     "@tierklinik-dobersberg/tailwind": ">=0.1.0",
     "class-variance-authority": "^0.6.0",
     "clsx": "^1.2.1",
