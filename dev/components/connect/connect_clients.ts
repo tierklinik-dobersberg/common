@@ -1,4 +1,4 @@
-import { Inject, InjectionToken, ModuleWithProviders, NgModule, Provider, inject } from "@angular/core";
+import { InjectionToken, ModuleWithProviders, NgModule, Provider, inject } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Code, ConnectError, Interceptor, PromiseClient, Transport, createPromiseClient } from "@connectrpc/connect";
 import { createConnectTransport } from "@connectrpc/connect-web";
@@ -11,6 +11,8 @@ import { CustomerService } from '@tierklinik-dobersberg/apis/customer/v1';
 import { CommentService } from '@tierklinik-dobersberg/apis/comment/v1';
 import { TaskService, BoardService } from '@tierklinik-dobersberg/apis/tasks/v1';
 import { EventService } from '@tierklinik-dobersberg/apis/events/v1';
+import { OfficeHourService } from '@tierklinik-dobersberg/apis/office_hours/v1';
+import { OrthancBridge } from '@tierklinik-dobersberg/apis/orthanc_bridge/v1';
 import { createRegistry, IExtensionRegistry, IMessageTypeRegistry } from "@bufbuild/protobuf";
 
 // AnyFn is not exporeted by @connectrpc/connect
@@ -25,6 +27,8 @@ export interface ConnectConfig {
   customerService: string;
   eventService: string;
   taskService: string;
+  officeHourService: string;
+  orthancBridge: string;
 
   registry?: IMessageTypeRegistry & Partial<IExtensionRegistry>;
 }
@@ -53,6 +57,8 @@ export const VOICE_MAIL_SERIVCE = new InjectionToken<VoiceMailServiceClient>('VO
 export const EVENT_SERVICE = new InjectionToken<EventServiceClient>('EVENT_SERVICE')
 export const TASK_SERVICE = new InjectionToken<TaskServiceClient>('TASK_SERVICE');
 export const BOARD_SERVICE = new InjectionToken<BoardServiceClient>('TASK_SERVICE');
+export const OFFICE_HOUR_SERIVCE = new InjectionToken<OfficeHourServiceClient>('OFFICE_HOUR_SERVICE');
+export const ORTHANC_BRIDGE_SERVICE = new InjectionToken<OrthancBridgeClient>('ORTHANC_BRIDGE_CLIENT')
 
 export type AuthServiceClient = PromiseClient<typeof AuthService>;
 export type SelfServiceClient = PromiseClient<typeof SelfServiceService>;
@@ -73,6 +79,8 @@ export type VoiceMailServiceClient = PromiseClient<typeof VoiceMailService>;
 export type EventServiceClient = PromiseClient<typeof EventService>;
 export type TaskServiceClient = PromiseClient<typeof TaskService>;
 export type BoardServiceClient = PromiseClient<typeof BoardService>;
+export type OfficeHourServiceClient = PromiseClient<typeof OfficeHourService>;
+export type OrthancBridgeClient = PromiseClient<typeof OrthancBridge>;
 
 function serviceClientFactory(type: any, ep: Exclude<keyof ConnectConfig, 'registry'>) {
   return ((route: ActivatedRoute, router: Router, cfg: ConnectConfig, handler: UnauthtenticatedHandlerFunc[]) => {
@@ -113,7 +121,9 @@ export const connectProviders: Provider[] = [
   makeProvider(CUSTOMER_SERVICE, CustomerService, "customerService"),
   makeProvider(EVENT_SERVICE, EventService, "eventService"),
   makeProvider(TASK_SERVICE, TaskService, "taskService"),
-  makeProvider(BOARD_SERVICE, BoardService, "taskService")
+  makeProvider(BOARD_SERVICE, BoardService, "taskService"),
+  makeProvider(OFFICE_HOUR_SERIVCE, OfficeHourService, "officeHourService"),
+  makeProvider(ORTHANC_BRIDGE_SERVICE, OrthancBridge, "officeHourService"),
 ]
 
 export function injectAuthService(): AuthServiceClient {
@@ -186,6 +196,14 @@ export function injectBoardService(): BoardServiceClient {
 
 export function injectTaskService(): TaskServiceClient {
   return inject(TASK_SERVICE);
+}
+
+export function injectOrthancClient(): OrthancBridgeClient {
+  return inject(ORTHANC_BRIDGE_SERVICE)
+}
+
+export function injectOfficeHourService(): OfficeHourServiceClient {
+  return inject(OFFICE_HOUR_SERIVCE);
 }
 
 const retryRefreshToken: (transport: Transport, activatedRoute: ActivatedRoute, router: Router, handler: UnauthtenticatedHandlerFunc[]) => Interceptor = (transport, activatedRoute, router, handler) => {
