@@ -123,7 +123,7 @@ export const connectProviders: Provider[] = [
   makeProvider(TASK_SERVICE, TaskService, "taskService"),
   makeProvider(BOARD_SERVICE, BoardService, "taskService"),
   makeProvider(OFFICE_HOUR_SERIVCE, OfficeHourService, "officeHourService"),
-  makeProvider(ORTHANC_BRIDGE_SERVICE, OrthancBridge, "officeHourService"),
+  makeProvider(ORTHANC_BRIDGE_SERVICE, OrthancBridge, "orthancBridge"),
 ]
 
 export function injectAuthService(): AuthServiceClient {
