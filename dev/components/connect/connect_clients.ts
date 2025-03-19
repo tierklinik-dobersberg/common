@@ -210,6 +210,14 @@ const retryRefreshToken: (transport: Transport, activatedRoute: ActivatedRoute, 
   let pendingRefresh: Promise<void> | null = null;
 
   return (next: AnyFn) => async (req) => {
+    if (pendingRefresh !== null) {
+      try {
+        await pendingRefresh;
+      } catch (err) {
+        throw err
+      }
+    }
+
     try {
       const result = await next(req)
       return result;
