@@ -10,12 +10,11 @@
   },
   "private": true,
   "dependencies": {
-    "rxjs": "^7.5",
-    "@angular/common": "^17.3.7",
-    "@angular/platform-browser": "^17.3.7",
     "@angular/animations": "^17.3.7",
+    "@angular/common": "^17.3.7",
     "@angular/core": "^17.3.7",
     "@angular/forms": "^17.3.7",
+    "@angular/platform-browser": "^17.3.7",
     "@angular/router": "^17.3.7",
     "@ng-icons/lucide": "^26.3.0",
     "@spartan-ng/ui-accordion-brain": "0.0.1-alpha.347",
@@ -45,6 +44,7 @@
     "embla-carousel-angular": "^14.0.0",
     "ngx-scrollbar": "^13.0.1",
     "ngx-sonner": "^0.3.4",
+    "rxjs": "^7.5",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
@@ -58,7 +58,7 @@
     "@ng-icons/core": "^26.3.0",
     "@ng-icons/heroicons": "^26.3.0",
     "@spartan-ng/cli": "^0.0.1-alpha.350",
-    "@tierklinik-dobersberg/apis": "0.12.0",
+    "@tierklinik-dobersberg/apis": "0.41.1",
     "@tierklinik-dobersberg/tailwind": ">=0.1.1",
     "@types/body-parser": "^1.19.5",
     "@types/connect": "^3.4.38",
